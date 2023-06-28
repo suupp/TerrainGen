@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+ <head>
+
+  <meta charset="utf-8"/>
+  <script type="module">
+    import { GenerateMap, map3dGen, GenerateAnimaMap, stopAnimation} from "./main.js";
+    window.MainGen = GenerateMap;
+    window.MainAnimaGen = GenerateAnimaMap;
+    window.map3dGen = map3dGen;
+    window.StopAnima = stopAnimation;
+  </script>
+ </head>
+ <body>
+   <div>
+     <input type="text" id="pepper">
+     <input type="button" value = "Instant generation" id = "instant">
+     <input type="button" value = "Animated generation" id = "anima">
+     <input type="button" value = "Stop animation" id = "stopAnima">
+  </div>
+  <br>
+  
+<canvas id="gc" width="600" height="600"></canvas>
+<canvas id = "zaza"></canvas>
+
+<script type="application/javascript">
+
+
+    class Cell {
+      constructor(x, y, z) {
+        this._x = x;
+        this._y = y;
+        this._z = z;
+      }
+      get y() {
+        return this._y;
+      }
+
+      set y(value) {
+        this._y = value;
+      }
+
+      get color() {
+        return this._color;
+      }
+
+      set color(value) {
+        this._color = value;
+      }
+    _color = "rgb(0, 0, 0)";
+    defineColor() {
+      if (this.y > 0 && this.y < 1) {this.color = "rgb(240, 230, 89)" }
+          else if (this.y >=1 && this.y < 2) {this.color = "rgb(106, 219, 61)"  }
+          else if (this.y >=2 && this.y < 3) {this.color = "rgb(69, 150, 36)" }
+          else if (this.y >=3 && this.y < 4) {this.color = "rgb(99, 70, 44)" }
+          else if (this.y >=4 && this.y < 5) {this.color = "rgb(54, 38, 24)" }
+          else if (this.y >=5) {this.color = "rgb(242, 240, 237)"  }
+          else if (this.y <= 0 && this.y > -1) {this.color = "rgb(61, 194, 212)"  }
+          else if (this.y <= -1 && this.y > -2) {this.color = "rgb(43, 138, 173)"  }
+          else if (this.y <= -2 && this.y > -3) {this.color = "rgb(43, 85, 173)"  }
+          else if (this.y <= -3) {this.color = "rgb(34, 63, 125)"  }
+    }
+
+
+    parseColor(){
+      var s = this._color;
+      var colArr = this._color.slice(s.search('\\(')+1, s.search('\\)')).split(',');
+      return colArr;
+    }
+
+}
+
+  realwidth = 600;
+  realheight = 600;
+  window.onload=function() {
+    document.getElementById("instant").addEventListener('click', MainGen);
+    document.getElementById("anima").addEventListener('click', MainAnimaGen);
+    document.getElementById("stopAnima").addEventListener('click', StopAnima);
+
+      canv=document.getElementById("gc");
+    //  canv.addEventListener("click", smoothMap);
+      ctx=canv.getContext("2d");
+      ctx.width = realwidth;
+      ctx.height = realheight;
+      ctx.fillStyle = "black";
+      MainGen();
+    //  setInterval(collisionChecker, 1000/120);
+    //  setInterval(ball,1000/10); 
+  }
+  pepper = document.getElementById("pepper").value == "" ? 4 : getElementById("pepper").value;
+  width = realwidth/pepper;
+  height = realheight/pepper;
+  
+  ascend = 1.237;
+  descend = 0.165;
+  
+  map = [];
+  map.length = width;
+  for (var i = 0; i < width; i++) {
+    map[i] = [];
+    map[i].length = height;
+  }
+  </script>
+
+
+ </body>
+</html>
